@@ -1,6 +1,7 @@
 #!bin/bash/
 if [ "$1" = "-d" ]; then
   rm -rf "$HOME/EPNro1"
+  pkill -f consolidar.sh
 fi
 while true; do
 cd "$HOME"
