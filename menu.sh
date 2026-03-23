@@ -1,6 +1,10 @@
 #!bin/bash/
-
+if [ "$1" = "-d" ]; then
+  rm -rf "$HOME/EPNro1"
+fi
+while true; do
 cd "$HOME"
+echo "----------------------------------------"
 echo "Elije una opcion"
 echo "1) Crear entorno"
 echo "2) Correr proceso"
@@ -13,18 +17,26 @@ read opcion
 
 case "$opcion" in
 1)
-	mkdir EPNro1
+	mkdir -p EPNro1
 	cd EPNro1
-	mkdir entrada salida procesado
+	mkdir -p entrada salida procesado
 	echo "---Entorno creado---"
         ;;
 2)
-	cp consolidar.sh EPNro1/
-        echo "opcion2"
+	if [ -d "EPNro1" ]; then
+ 	 cp consolidar.sh EPNro1/
+	 cd EPNro1
+	 chmod +x consolidar.sh
+	 bash consolidar.sh &
+         echo "---Corriendo Proceso---"
+	else
+	 echo "Todavia no existe el entorno"
+	fi
         ;;
 3)
 	cd EPNro1/salida
 	if [ -f "$FILENAME" ]; then
+	echo "---Listado de Alumnos---"
 	sort "$FILENAME"
 	else
 	echo "No existe el archivo $FILENAME"
@@ -33,17 +45,27 @@ case "$opcion" in
 4)
 	cd EPNro1/salida
 	if [ -f "$FILENAME" ]; then
+	echo "---Top 10 Notas---"
 	sort -k5,5nr "$FILENAME" | head -n 10
 	else
 	echo "No existe el archivo $FILENAME"
 	fi 
         ;;
 5)
-        echo "opcion5"
-        ;;
+	echo "Ingrese un nro de padrón"
+	read padron
+	echo "---Datos del alumno---"
+	if grep "^$padron" "EPNro1/salida/$FILENAME"; then
+	:
+	else
+	echo  "No se encontro un alumno con ese nro"
+        fi
+	;;
 6)
-	echo salir
+	echo "---Saliendo---"
+	break
 	;;
 *)
               
 esac
+done
