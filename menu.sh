@@ -1,4 +1,4 @@
-#!bin/bash/
+#!bin/bash
 if [ "$1" = "-d" ]; then
   rm -rf "$HOME/EPNro1"
   pkill -f consolidar.sh
@@ -27,7 +27,9 @@ case "$opcion" in
 2)
 	if [ -d "EPNro1" ]; then
 	cd "$HOME/EPNro1"
-		if [ -z "$(ls entrada)" ]; then
+	shopt -s nullglob
+	archivos=(entrada/*)
+		if [ ${#archivos[@]} -eq 0 ]; then
 	 	 echo "No hay archivos para procesar"
 		else
 		 chmod +x consolidar.sh
@@ -59,7 +61,7 @@ case "$opcion" in
 	echo "Ingrese un nro de padrón"
 	read padron
 	echo "---Datos del alumno---"
-	if grep "^$padron" "EPNro1/salida/$FILENAME"; then
+	if grep "^$padron " "EPNro1/salida/$FILENAME"; then
 	:
 	else
 	echo  "No se encontro un alumno con ese nro"
