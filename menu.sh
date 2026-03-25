@@ -19,10 +19,8 @@ read opcion
 
 case "$opcion" in
 1)
-	mkdir -p EPNro1
-	cd EPNro1
-	mkdir -p entrada salida procesado
-	cp ../consolidar.sh ./
+	mkdir -p EPNro1/entrada EPNro1/salida EPNro1/procesado
+	cp consolidar.sh EPNro1
 	echo "---Entorno creado---"
         ;;
 2)
@@ -44,7 +42,7 @@ case "$opcion" in
 3)
 	if [ -f "EPNro1/salida/$FILENAME" ]; then
 	echo "---Listado de Alumnos---"
-	sort "EPNro1/salida/$FILENAME"
+	sort -k1,1n "EPNro1/salida/$FILENAME"
 	else
 	echo "No existe el archivo $FILENAME"
 	fi
@@ -62,11 +60,8 @@ case "$opcion" in
 	echo "Ingrese un nro de padrón"
 	read padron
 	echo "---Datos del alumno---"
-	if grep "^$padron " "EPNro1/salida/$FILENAME"; then
-	:
-	else
-	echo  "No se encontro un alumno con ese nro"
-        fi
+	grep "^$padron " "EPNro1/salida/$FILENAME" || \
+	 echo  "No se encontro un alumno con ese nro"
 	else
 	echo "No existe el archivo $FILENAME"
 	fi
