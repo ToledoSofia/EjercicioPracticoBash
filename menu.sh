@@ -3,7 +3,8 @@ if [ "$1" = "-d" ]; then
   rm -rf "$HOME/EPNro1"
   pkill -f consolidar.sh
 fi
-while true; do
+salir=false
+until $salir; do
 cd "$HOME"
 echo "----------------------------------------"
 echo "Elije una opcion"
@@ -72,7 +73,7 @@ case "$opcion" in
 	;;
 6)
 	echo "---Saliendo---"
-	break
+	salir=true;
 	;;
 *)
 	echo "Opción invalida"
